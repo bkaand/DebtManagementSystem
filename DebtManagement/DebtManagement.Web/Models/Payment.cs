@@ -1,8 +1,13 @@
-public class Payment
+using System;
+
+namespace DebtManagement.Web.Models
 {
-    public int PaymentId { get; set; }
-    public int DebtId { get; set; }
-    public decimal AmountPaid { get; set; }
-    public DateTime PaymentDate { get; set; }
-    public Debt Debt { get; set; }
+    public class Payment
+    {
+        public int PaymentId { get; set; }
+        public int DebtId { get; set; }
+        public decimal AmountPaid { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public Debt Debt { get; set; }
+    }
 }

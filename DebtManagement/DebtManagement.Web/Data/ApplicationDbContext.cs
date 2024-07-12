@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using DebtManagement.Web.Models;
 
 namespace DebtManagement.Web.Data
 {

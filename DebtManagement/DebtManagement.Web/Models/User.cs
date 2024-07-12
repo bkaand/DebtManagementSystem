@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using System;
 
-public class User : IdentityUser
+namespace DebtManagement.Web.Models
 {
-    public string ClientName { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime LastLoginDate { get; set; }
+    public class User : IdentityUser
+    {
+        public string ClientName { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
+    }
 }
