@@ -15,9 +15,14 @@ namespace DebtManagement.Web.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+<<<<<<< Updated upstream
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+=======
+                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+>>>>>>> Stashed changes
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
