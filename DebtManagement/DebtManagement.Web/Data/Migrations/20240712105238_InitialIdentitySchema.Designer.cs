@@ -4,6 +4,7 @@ using DebtManagement.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,15 +12,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DebtManagement.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240712105238_InitialIdentitySchema")]
+    partial class InitialIdentitySchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("DebtManagement.Web.Models.Debt", b =>
                 {
@@ -28,10 +32,6 @@ namespace DebtManagement.Web.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DebtId"));
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -61,9 +61,13 @@ namespace DebtManagement.Web.Data.Migrations
                     b.Property<decimal>("RemainingAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("DebtId");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Debts");
                 });
@@ -80,19 +84,19 @@ namespace DebtManagement.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("MonthlyIncome")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("RecordedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("IncomeId");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Incomes");
                 });
@@ -137,12 +141,18 @@ namespace DebtManagement.Web.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastLoginDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -329,30 +339,30 @@ namespace DebtManagement.Web.Data.Migrations
 
             modelBuilder.Entity("DebtManagement.Web.Models.Debt", b =>
                 {
-                    b.HasOne("DebtManagement.Web.Models.User", "Client")
-                        .WithMany("Debts")
-                        .HasForeignKey("ClientId")
+                    b.HasOne("DebtManagement.Web.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DebtManagement.Web.Models.Income", b =>
                 {
-                    b.HasOne("DebtManagement.Web.Models.User", "Client")
-                        .WithMany("Incomes")
-                        .HasForeignKey("ClientId")
+                    b.HasOne("DebtManagement.Web.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DebtManagement.Web.Models.Payment", b =>
                 {
                     b.HasOne("DebtManagement.Web.Models.Debt", "Debt")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("DebtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -409,18 +419,6 @@ namespace DebtManagement.Web.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DebtManagement.Web.Models.Debt", b =>
-                {
-                    b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("DebtManagement.Web.Models.User", b =>
-                {
-                    b.Navigation("Debts");
-
-                    b.Navigation("Incomes");
                 });
 #pragma warning restore 612, 618
         }
