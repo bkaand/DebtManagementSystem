@@ -2,13 +2,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DebtManagement.Web.Models
+namespace DebtManagement.Web.Entities
 {
-    public class Income
+    public class Income :BaseEntity
     {
-        [Key]
-        public int IncomeId { get; set; }
-
         [Required]
         public decimal MonthlyIncome { get; set; }
 

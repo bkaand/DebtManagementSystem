@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DebtManagement.Web.Models; 
+using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Data
 {

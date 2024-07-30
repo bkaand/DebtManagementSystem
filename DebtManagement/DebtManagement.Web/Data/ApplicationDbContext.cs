@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DebtManagement.Web.Models;
+using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Data
 {

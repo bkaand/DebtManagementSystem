@@ -1,0 +1,16 @@
+﻿@model IEnumerable<DebtManagement.Web.Entities.Debt> 
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Debts</h2>
+
+@foreach(var item in Model)
+{
+    <p>@item.DebtAmount</p>
+    <p>@item.InsuranceAmount</p>
+    <p>@item.DebtType</p>
+    <p>@item.RemainingAmount</p>
+}

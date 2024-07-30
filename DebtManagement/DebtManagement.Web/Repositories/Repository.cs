@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DebtManagement.Web.Data;
+using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;

@@ -1,9 +1,10 @@
-using DebtManagement.Web.Models;
+using DebtManagement.Web.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Repositories
 {
+
     public interface IPaymentRepository
     {
         Task<IEnumerable<Payment>> GetAllPaymentsAsync();

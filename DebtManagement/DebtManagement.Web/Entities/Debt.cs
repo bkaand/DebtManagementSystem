@@ -3,14 +3,11 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
-using DebtManagement.Web.Models; // Add this using directive
 
-namespace DebtManagement.Web.Models
+namespace DebtManagement.Web.Entities
 {
-    public class Debt
+    public class Debt : BaseEntity
     {
-        [Key]
-        public int DebtId { get; set; }
 
         [Required]
         public string ClientId { get; set; }
@@ -34,10 +31,14 @@ namespace DebtManagement.Web.Models
         public decimal InterestRateYearly { get; set; }
 
         public decimal InsuranceAmount { get; set; }
-
-        [Required]
-        public DateTime CreatedDate { get; set; }
-
         public ICollection<Payment> Payments { get; set; }
+    }
+
+
+    public enum DeptType
+    {
+        CreditCard = 0,
+        Loan = 1,
+        AvansAccount = 2,
     }
 }

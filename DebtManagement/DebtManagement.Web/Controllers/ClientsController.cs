@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using DebtManagement.Web.Data;
-using DebtManagement.Web.Models;
+using DebtManagement.Web.Entities;
 
 public class ClientsController : Controller
 {

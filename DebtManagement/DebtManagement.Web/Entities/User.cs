@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace DebtManagement.Web.Models
+namespace DebtManagement.Web.Entities
 {
     public class User : IdentityUser
     {

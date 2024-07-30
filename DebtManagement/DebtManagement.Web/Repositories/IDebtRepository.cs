@@ -1,4 +1,4 @@
-using DebtManagement.Web.Models;
+using DebtManagement.Web.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

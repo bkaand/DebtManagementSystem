@@ -1,5 +1,5 @@
 using DebtManagement.Web.Data;
-using DebtManagement.Web.Models;
+using DebtManagement.Web.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

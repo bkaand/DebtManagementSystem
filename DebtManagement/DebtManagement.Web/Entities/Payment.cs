@@ -1,10 +1,9 @@
 using System;
 
-namespace DebtManagement.Web.Models
+namespace DebtManagement.Web.Entities
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
-        public int PaymentId { get; set; }
         public int DebtId { get; set; }
         public decimal AmountPaid { get; set; }
         public DateTime PaymentDate { get; set; }
