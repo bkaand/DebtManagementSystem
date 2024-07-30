@@ -23,6 +23,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using DebtManagement.Web.Models; // Add this using directive
 
 namespace DebtManagement.Web.Models
 {

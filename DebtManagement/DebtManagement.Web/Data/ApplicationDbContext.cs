@@ -119,6 +119,7 @@ namespace DebtManagement.Web.Data
     }
 }
 */
+/*
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DebtManagement.Web.Models;

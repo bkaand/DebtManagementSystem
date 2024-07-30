@@ -1,9 +1,15 @@
 using DebtManagement.Web.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Repositories
 {
-    public interface IClientRepository : IRepository<Client>
+    public interface IClientRepository
     {
-        // Add any additional methods specific to Client entity here
+        Task<IEnumerable<User>> GetAllClientsAsync();
+        Task<User> GetClientByIdAsync(string clientId);
+        Task AddClientAsync(User client);
+        Task UpdateClientAsync(User client);
+        Task DeleteClientAsync(string clientId);
     }
 }
