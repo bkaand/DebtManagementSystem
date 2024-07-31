@@ -21,9 +21,9 @@ namespace DebtManagement.Web.Repositories
             var fakeDebts = new List<Debt>
     {
         new Debt { Id = 1, DebtAmount = 1000, DebtType = "Kredi" , CreateDate = DateTime.Now, ClientId="1", },
-        new Debt { Id = 2, DebtAmount = 2000, DebtType = "Kredi Kartý" , CreateDate = DateTime.Now, ClientId="1", },
+        new Debt { Id = 2, DebtAmount = 2000, DebtType = "Kredi Kart" , CreateDate = DateTime.Now, ClientId="1", },
         new Debt { Id = 3, DebtAmount = 3000, DebtType = "Avans hesap" , CreateDate = DateTime.Now, ClientId="1", },
-        new Debt { Id = 4, DebtAmount = 4000, DebtType = "Borç" , CreateDate = DateTime.Now, ClientId="1", },
+        new Debt { Id = 4, DebtAmount = 4000, DebtType = "Borc" , CreateDate = DateTime.Now, ClientId="1", },
 
     };
 

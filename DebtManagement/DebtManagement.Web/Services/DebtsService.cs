@@ -1,4 +1,4 @@
-﻿using DebtManagement.Web.Entities;
+﻿/*using DebtManagement.Web.Entities;
 using DebtManagement.Web.Repositories;
 
 namespace DebtManagement.Web.Services
@@ -19,6 +19,33 @@ namespace DebtManagement.Web.Services
             var debts = await _debtRepository.GetAllDebtsAsync();
 
             return debts;
+        }
+    }
+}*/
+using AutoMapper;
+using DebtManagement.Web.DTOs;
+using DebtManagement.Web.Entities;
+using DebtManagement.Web.Repositories;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DebtManagement.Web.Services
+{
+    public class DebtsService : IDebtsService
+    {
+        private readonly IDebtRepository _debtRepository;
+        private readonly IMapper _mapper;
+
+        public DebtsService(IDebtRepository debtRepository, IMapper mapper)
+        {
+            _debtRepository = debtRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<DebtDTO>> GetAllDebtsAsync()
+        {
+            var debts = await _debtRepository.GetAllDebtsAsync();
+            return _mapper.Map<IEnumerable<DebtDTO>>(debts);
         }
     }
 }
