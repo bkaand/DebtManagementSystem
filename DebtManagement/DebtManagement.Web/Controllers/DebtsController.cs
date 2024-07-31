@@ -12,7 +12,7 @@ namespace DebtManagement.Web.Controllers
             this.debtsService = debtsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var debts = await debtsService.GetAllDebtsAsync();
             return View(debts);
