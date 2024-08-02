@@ -103,11 +103,14 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 // Register AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IDebtRepository, DebtRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IDebtsService, DebtsService>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
 
 builder.Services.AddControllersWithViews();
 

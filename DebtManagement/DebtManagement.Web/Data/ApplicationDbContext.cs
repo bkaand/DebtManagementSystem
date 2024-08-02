@@ -81,11 +81,43 @@ namespace DebtManagement.Web.Data
         {
             base.OnModelCreating(modelBuilder);
             
-            // Additional configuration if needed
             modelBuilder.Entity<Client>().ToTable("Clients");
             modelBuilder.Entity<Debt>().ToTable("Debts");
             modelBuilder.Entity<Payment>().ToTable("Payments");
             modelBuilder.Entity<Income>().ToTable("Incomes");
+
+            // Custom configurations
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.DebtAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.EarlyClosingAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.InsuranceAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.InterestRateMonthly)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.InterestRateYearly)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Debt>()
+                .Property(d => d.RemainingAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Income>()
+                .Property(i => i.MonthlyIncome)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.AmountPaid)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

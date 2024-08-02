@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Repositories
 {
-
-    public interface IPaymentRepository
+    public interface IPaymentRepository : IGenericRepository<Payment>
     {
-        Task<IEnumerable<Payment>> GetAllPaymentsAsync();
-        Task<Payment> GetPaymentByIdAsync(int paymentId);
-        Task AddPaymentAsync(Payment payment);
-        Task UpdatePaymentAsync(Payment payment);
-        Task DeletePaymentAsync(int paymentId);
+        Task<IEnumerable<Payment>> GetAllAsync();
+        Task<Payment> GetByIdAsync(int id);
+        Task AddAsync(Payment payment);
+        Task UpdateAsync(Payment payment);
+        Task DeleteAsync(int id);
     }
 }

@@ -12,7 +12,8 @@ namespace DebtManagement.Web.Mappings
             CreateMap<Client, ClientDTO>().ReverseMap();
             CreateMap<Debt, DebtDTO>().ReverseMap();
            // CreateMap<Income, IncomeDTO>().ReverseMap();
-           // CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>().ReverseMap(); 
+        
         }
     }
 }

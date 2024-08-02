@@ -4,43 +4,42 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace DebtManagement.Web.Repositories
 {
-    public class PaymentRepository : IPaymentRepository
+    public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public PaymentRepository(ApplicationDbContext context)
+        public PaymentRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Payment>> GetAllPaymentsAsync()
+        public async Task<IEnumerable<Payment>> GetAllAsync()
         {
             return await _context.Payments.ToListAsync();
         }
 
-        public async Task<Payment> GetPaymentByIdAsync(int paymentId)
+        public async Task<Payment> GetByIdAsync(int id)
         {
-            return await _context.Payments.FindAsync(paymentId);
+            return await _context.Payments.FindAsync(id);
         }
 
-        public async Task AddPaymentAsync(Payment payment)
+        public async Task AddAsync(Payment payment)
         {
             await _context.Payments.AddAsync(payment);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePaymentAsync(Payment payment)
+        public async Task UpdateAsync(Payment payment)
         {
             _context.Payments.Update(payment);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePaymentAsync(int paymentId)
+        public async Task DeleteAsync(int id)
         {
-            var payment = await _context.Payments.FindAsync(paymentId);
+            var payment = await _context.Payments.FindAsync(id);
             if (payment != null)
             {
                 _context.Payments.Remove(payment);
