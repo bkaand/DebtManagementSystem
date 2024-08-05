@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace DebtManagement.Web.Repositories
 {
     public class IncomeRepository : IIncomeRepository

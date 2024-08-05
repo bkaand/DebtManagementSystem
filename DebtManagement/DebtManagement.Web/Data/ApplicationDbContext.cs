@@ -67,7 +67,6 @@ namespace DebtManagement.Web.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Debt> Debts { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -80,13 +79,13 @@ namespace DebtManagement.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.Entity<Client>().ToTable("Clients");
             modelBuilder.Entity<Debt>().ToTable("Debts");
             modelBuilder.Entity<Payment>().ToTable("Payments");
             modelBuilder.Entity<Income>().ToTable("Incomes");
 
-            // Custom configurations
+            // Custom configurations for decimal properties
             modelBuilder.Entity<Debt>()
                 .Property(d => d.DebtAmount)
                 .HasColumnType("decimal(18,2)");
@@ -118,6 +117,22 @@ namespace DebtManagement.Web.Data
             modelBuilder.Entity<Payment>()
                 .Property(p => p.AmountPaid)
                 .HasColumnType("decimal(18,2)");
+
+            // Configure relationships
+            modelBuilder.Entity<Debt>()
+                .HasOne(d => d.Client)
+                .WithMany(c => c.Debts)
+                .HasForeignKey(d => d.ClientId);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Debt)
+                .WithMany(d => d.Payments)
+                .HasForeignKey(p => p.DebtId);
+
+            modelBuilder.Entity<Income>()
+                .HasOne(i => i.Client)
+                .WithMany(c => c.Incomes)
+                .HasForeignKey(i => i.ClientId);
         }
     }
 }

@@ -1,51 +1,42 @@
-﻿/*using DebtManagement.Web.Entities;
-using DebtManagement.Web.Repositories;
-
-namespace DebtManagement.Web.Services
-{
-    public class DebtsService
-    {
-
-        private readonly IDebtRepository _debtRepository;
-
-        public DebtsService(IDebtRepository debtRepository)
-        {
-            _debtRepository = debtRepository;
-        }
-
-
-        public async Task<IEnumerable<Debt>> GetAllDebtsAsync() 
-        { 
-            var debts = await _debtRepository.GetAllDebtsAsync();
-
-            return debts;
-        }
-    }
-}*/
-using AutoMapper;
-using DebtManagement.Web.DTOs;
-using DebtManagement.Web.Entities;
+﻿using DebtManagement.Web.Entities;
 using DebtManagement.Web.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Services
 {
-    public class DebtsService : IDebtsService
+    public class DebtService : IDebtService
     {
         private readonly IDebtRepository _debtRepository;
-        private readonly IMapper _mapper;
 
-        public DebtsService(IDebtRepository debtRepository, IMapper mapper)
+        public DebtService(IDebtRepository debtRepository)
         {
             _debtRepository = debtRepository;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DebtDTO>> GetAllDebtsAsync()
+        public async Task<IEnumerable<Debt>> GetAllDebtsAsync()
         {
-            var debts = await _debtRepository.GetAllDebtsAsync();
-            return _mapper.Map<IEnumerable<DebtDTO>>(debts);
+            return await _debtRepository.GetAllDebtsAsync();
+        }
+
+        public async Task<Debt> GetDebtByIdAsync(int id)
+        {
+            return await _debtRepository.GetDebtByIdAsync(id);
+        }
+
+        public async Task AddDebtAsync(Debt debt)
+        {
+            await _debtRepository.AddDebtAsync(debt);
+        }
+
+        public async Task UpdateDebtAsync(Debt debt)
+        {
+            await _debtRepository.UpdateDebtAsync(debt);
+        }
+
+        public async Task DeleteDebtAsync(int id)
+        {
+            await _debtRepository.DeleteDebtAsync(id);
         }
     }
 }

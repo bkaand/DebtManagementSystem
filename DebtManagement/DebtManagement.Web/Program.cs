@@ -77,16 +77,13 @@ using (var scope = app.Services.CreateScope())
 
 app.Run();
 */
-using AutoMapper;
 using DebtManagement.Web.Data;
 using DebtManagement.Web.Entities;
-using DebtManagement.Web.Mappings;
 using DebtManagement.Web.Repositories;
 using DebtManagement.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,19 +97,22 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Register AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+// Repositories
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IDebtRepository, DebtRepository>();
-builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IDebtsService, DebtsService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+// Services
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IDebtService, DebtService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IIncomeService, IncomeService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddControllersWithViews();
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -139,5 +139,19 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await DataSeeder.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
 
 app.Run();

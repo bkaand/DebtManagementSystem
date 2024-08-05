@@ -1,21 +1,33 @@
-﻿using DebtManagement.Web.Services;
+﻿using AutoMapper;
+using DebtManagement.Web.DTOs;
+using DebtManagement.Web.Entities;
+using DebtManagement.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Controllers
-{ 
-    public class DebtsController : Controller
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class DebtController : ControllerBase
     {
-        private readonly DebtsService debtsService;
+        private readonly IDebtService _debtService;
+        private readonly IMapper _mapper;
 
-        public DebtsController(DebtsService debtsService)
+        public DebtController(IDebtService debtService, IMapper mapper)
         {
-            this.debtsService = debtsService;
+            _debtService = debtService;
+            _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<DebtDTO>>> GetDebts()
         {
-            var debts = await debtsService.GetAllDebtsAsync();
-            return View(debts);
+            var debts = await _debtService.GetAllDebtsAsync();
+            return Ok(_mapper.Map<IEnumerable<DebtDTO>>(debts));
         }
+
+        // Other actions like GetDebtById, AddDebt, UpdateDebt, DeleteDebt
     }
 }

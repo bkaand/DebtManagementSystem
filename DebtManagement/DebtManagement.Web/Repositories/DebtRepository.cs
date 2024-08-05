@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 namespace DebtManagement.Web.Repositories
 {
     public class DebtRepository : IDebtRepository
@@ -18,23 +17,8 @@ namespace DebtManagement.Web.Repositories
 
         public async Task<IEnumerable<Debt>> GetAllDebtsAsync()
         {
-            var fakeDebts = new List<Debt>
-    {
-        new Debt { Id = 1, DebtAmount = 1000, DebtType = "Kredi" , CreateDate = DateTime.Now, ClientId="1", },
-        new Debt { Id = 2, DebtAmount = 2000, DebtType = "Kredi Kart" , CreateDate = DateTime.Now, ClientId="1", },
-        new Debt { Id = 3, DebtAmount = 3000, DebtType = "Avans hesap" , CreateDate = DateTime.Now, ClientId="1", },
-        new Debt { Id = 4, DebtAmount = 4000, DebtType = "Borc" , CreateDate = DateTime.Now, ClientId="1", },
-
-    };
-
-            return await Task.FromResult(fakeDebts);
+            return await _context.Debts.ToListAsync();
         }
-
-        //public async Task<IEnumerable<Debt>> GetAllDebtsAsync()
-        //{
-        //    return await _context.Debts.ToListAsync();
-        //}
-
 
         public async Task<Debt> GetDebtByIdAsync(int debtId)
         {
