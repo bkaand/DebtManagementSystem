@@ -1,8 +1,8 @@
 namespace DebtManagement.Web.DTOs
 {
-    public class DebtDTO
+    public class DebtDto
     {
-        public int DebtId { get; set; }
+        public int Id { get; set; }
         public string DebtType { get; set; }
         public decimal DebtAmount { get; set; }
         public int Installments { get; set; }
@@ -12,5 +12,6 @@ namespace DebtManagement.Web.DTOs
         public decimal InterestRateYearly { get; set; }
         public decimal InsuranceAmount { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string ClientName { get; set; }
     }
 }

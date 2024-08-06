@@ -14,8 +14,9 @@ namespace DebtManagement.Web.Mapping
             CreateMap<Client, ClientDTO>();
             CreateMap<ClientDTO, Client>();
 
-            CreateMap<Debt, DebtDTO>();
-            CreateMap<DebtDTO, Debt>();
+            CreateMap<Debt, DebtDto>()
+                .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.ClientName));
+            CreateMap<DebtDto, Debt>();
 
             CreateMap<Income, IncomeDto>();
             CreateMap<IncomeDto, Income>();

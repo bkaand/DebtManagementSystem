@@ -1,16 +1,89 @@
-﻿@model IEnumerable<DebtManagement.Web.Entities.Debt> 
+﻿@model IEnumerable<DebtManagement.Web.DTOs.DebtDto>
 
 @{
-    ViewBag.Title = "Index";
+    ViewData["Title"] = "Debt Index";
 }
 
+<h1>Debt Index</h1>
 
-<h2>Debts</h2>
-
-@foreach(var item in Model)
-{
-    <p>@item.DebtAmount</p>
-    <p>@item.InsuranceAmount</p>
-    <p>@item.DebtType</p>
-    <p>@item.RemainingAmount</p>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DebtType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DebtAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Installments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RemainingAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EarlyClosingAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InterestRateMonthly)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InterestRateYearly)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuranceAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DebtType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DebtAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainingAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EarlyClosingAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InterestRateMonthly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InterestRateYearly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsuranceAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
 }
+    </tbody>
+</table>
