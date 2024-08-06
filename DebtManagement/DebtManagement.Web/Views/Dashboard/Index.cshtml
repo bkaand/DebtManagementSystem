@@ -1,0 +1,14 @@
+@model DebtManagement.Web.DTOs.DashboardDataDto
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<div>
+    <p>Total Users: @Model.TotalUsers</p>
+    <p>Total Clients: @Model.TotalClients</p>
+    <p>Total Debts: @Model.TotalDebts</p>
+    <p>Total Payments: @Model.TotalPayments</p>
+    <p>Total Incomes: @Model.TotalIncomes</p>
+</div>
