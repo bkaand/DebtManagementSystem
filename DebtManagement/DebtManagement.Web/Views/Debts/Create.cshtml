@@ -1,4 +1,4 @@
-@model IEnumerable<DebtManagement.Web.DTOs.DebtDto>
+@model IEnumerable<DebtManagement.Web.DTOs.DebtDTO>
 
 @{
     ViewData["Title"] = "Debts";
@@ -21,7 +21,6 @@
             <tr>
                 <td>@debt.DebtType</td>
                 <td>@debt.DebtAmount</td>
-                <td>@debt.ClientName</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@debt.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@debt.Id">Details</a> |

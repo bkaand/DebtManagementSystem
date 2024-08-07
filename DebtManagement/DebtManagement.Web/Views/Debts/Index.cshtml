@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DebtManagement.Web.DTOs.DebtDto>
+﻿@model IEnumerable<DebtManagement.Web.DTOs.DebtDTO>
 
 @{
     ViewData["Title"] = "Debts";
@@ -6,30 +6,41 @@
 
 <h1>Debts</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Debt Type</th>
-            <th>Debt Amount</th>
-            <th>Client Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var debt in Model)
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No debts available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Debt Type</th>
+                <th>Debt Amount</th>
+                <th>Installments</th>
+                <th>Remaining Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@debt.DebtType</td>
-                <td>@debt.DebtAmount</td>
-                <td>@debt.ClientName</td>
+                <td>@item.DebtType</td>
+                <td>@item.DebtAmount</td>
+                <td>@item.Installments</td>
+                <td>@item.RemainingAmount</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@debt.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@debt.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@debt.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
-    </tbody>
-</table>
-
-<a asp-action="Create">Create New</a>
+        </tbody>
+    </table>
+}

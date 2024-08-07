@@ -147,7 +147,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "dashboard",
     pattern: "{controller=Dashboard}/{action=Index}/{id?}");
-    
+
+app.MapControllerRoute(
+    name: "debts",
+    pattern: "{controller=Debts}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
@@ -163,5 +166,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+
 
 app.Run();
