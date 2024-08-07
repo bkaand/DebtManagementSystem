@@ -1,34 +1,68 @@
-@model IEnumerable<DebtManagement.Web.DTOs.DebtDTO>
+@model DebtManagement.Web.DTOs.DebtDTO
 
 @{
-    ViewData["Title"] = "Debts";
+    ViewData["Title"] = "Create Debt";
 }
 
-<h1>Debts</h1>
+<h1>Create Debt</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Debt Type</th>
-            <th>Debt Amount</th>
-            <th>Client Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var debt in Model)
-        {
-            <tr>
-                <td>@debt.DebtType</td>
-                <td>@debt.DebtAmount</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@debt.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@debt.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@debt.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h4>Debt</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="DebtType" class="control-label"></label>
+                <input asp-for="DebtType" class="form-control" />
+                <span asp-validation-for="DebtType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DebtAmount" class="control-label"></label>
+                <input asp-for="DebtAmount" class="form-control" />
+                <span asp-validation-for="DebtAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Installments" class="control-label"></label>
+                <input asp-for="Installments" class="form-control" />
+                <span asp-validation-for="Installments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RemainingAmount" class="control-label"></label>
+                <input asp-for="RemainingAmount" class="form-control" />
+                <span asp-validation-for="RemainingAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarlyClosingAmount" class="control-label"></label>
+                <input asp-for="EarlyClosingAmount" class="form-control" />
+                <span asp-validation-for="EarlyClosingAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterestRateMonthly" class="control-label"></label>
+                <input asp-for="InterestRateMonthly" class="form-control" />
+                <span asp-validation-for="InterestRateMonthly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterestRateYearly" class="control-label"></label>
+                <input asp-for="InterestRateYearly" class="form-control" />
+                <span asp-validation-for="InterestRateYearly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceAmount" class="control-label"></label>
+                <input asp-for="InsuranceAmount" class="form-control" />
+                <span asp-validation-for="InsuranceAmount" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
 
-<a asp-action="Create">Create New</a>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

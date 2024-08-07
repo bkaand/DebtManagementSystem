@@ -1,6 +1,7 @@
 using DebtManagement.Web.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Services
 {
