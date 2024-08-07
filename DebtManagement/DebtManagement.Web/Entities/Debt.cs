@@ -1,4 +1,3 @@
-
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +7,6 @@ namespace DebtManagement.Web.Entities
 {
     public class Debt : BaseEntity
     {
-
         [Required]
         public string ClientId { get; set; }
 
@@ -32,13 +30,5 @@ namespace DebtManagement.Web.Entities
 
         public decimal InsuranceAmount { get; set; }
         public ICollection<Payment> Payments { get; set; }
-    }
-
-
-    public enum DeptType
-    {
-        CreditCard = 0,
-        Loan = 1,
-        AvansAccount = 2,
     }
 }

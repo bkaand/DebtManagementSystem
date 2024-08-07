@@ -1,11 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace DebtManagement.Web.Entities
 {
-    public class Client : BaseEntity
+    public class Client
     {
-        public string ClientName { get; set; }
+        public int Id { get; set; }
 
-        // Navigation properties
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Phone]
+        public string PhoneNumber { get; set; }
+
         public ICollection<Debt> Debts { get; set; }
-        public ICollection<Income> Incomes { get; set; }
     }
 }
