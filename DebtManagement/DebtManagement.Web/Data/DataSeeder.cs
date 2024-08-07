@@ -91,9 +91,7 @@ public static class DataSeeder
         }
     }
 }
-*/
-
-using Microsoft.AspNetCore.Identity;
+*/using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -116,19 +114,14 @@ public static class DataSeeder
         // Seed Admin User
         var adminEmail = "admin@example.com";
         var adminPassword = "Admin@123";
-        await EnsureUserAsync(userManager, adminEmail, adminPassword, "Admin");
+        var adminUser = await EnsureUserAsync(userManager, adminEmail, adminPassword, "Admin");
 
-        // Seed Client User
-        var clientEmail = "client@example.com";
-        var clientPassword = "Client@123";
-        var clientUser = await EnsureUserAsync(userManager, clientEmail, clientPassword, "Client");
-
-        // Add some debts for the client
+        // Add dummy debts for the admin user
         if (!context.Debts.Any())
         {
             context.Debts.Add(new Debt
             {
-                ClientId = clientUser.Id,
+                ClientId = adminUser.Id,
                 DebtType = "Loan",
                 DebtAmount = 10000,
                 Installments = 12,
@@ -137,6 +130,20 @@ public static class DataSeeder
                 InterestRateMonthly = 1.5m,
                 InterestRateYearly = 18m,
                 InsuranceAmount = 200,
+                CreateDate = DateTime.Now
+            });
+
+            context.Debts.Add(new Debt
+            {
+                ClientId = adminUser.Id,
+                DebtType = "Credit Card",
+                DebtAmount = 5000,
+                Installments = 6,
+                RemainingAmount = 3000,
+                EarlyClosingAmount = 2800,
+                InterestRateMonthly = 2.0m,
+                InterestRateYearly = 24m,
+                InsuranceAmount = 100,
                 CreateDate = DateTime.Now
             });
 
