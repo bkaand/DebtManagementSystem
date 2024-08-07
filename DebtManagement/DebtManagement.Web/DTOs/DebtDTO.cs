@@ -2,6 +2,7 @@ namespace DebtManagement.Web.DTOs
 {
     public class DebtDTO
     {
+         public int Id { get; set; } 
         public int DebtId { get; set; }
         public string DebtType { get; set; }
         public decimal DebtAmount { get; set; }
