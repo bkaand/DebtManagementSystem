@@ -151,6 +151,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "debts",
     pattern: "{controller=Debts}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "payments",
+    pattern: "{controller=Debts}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
