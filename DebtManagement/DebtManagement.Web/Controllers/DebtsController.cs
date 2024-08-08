@@ -2,20 +2,23 @@
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using DebtManagement.Web.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Controllers
 {
     public class DebtsController : Controller
     {
         private readonly IDebtService _debtService;
+        private readonly IClientService _clientService;
         private readonly IMapper _mapper;
 
-        public DebtsController(IDebtService debtService, IMapper mapper)
+        public DebtsController(IDebtService debtService, IClientService clientService, IMapper mapper)
         {
             _debtService = debtService;
+            _clientService = clientService;
             _mapper = mapper;
         }
 
@@ -26,8 +29,10 @@ namespace DebtManagement.Web.Controllers
             return View(debtDtos);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var clients = await _clientService.GetAllClientsAsync();
+            ViewBag.Clients = new SelectList(clients, "Id", "Name");
             return View();
         }
 
@@ -41,6 +46,10 @@ namespace DebtManagement.Web.Controllers
                 await _debtService.AddDebtAsync(debt);
                 return RedirectToAction(nameof(Index));
             }
+
+            var clients = await _clientService.GetAllClientsAsync();
+            ViewBag.Clients = new SelectList(clients, "Id", "Name");
+
             return View(debtDto);
         }
 
@@ -51,6 +60,10 @@ namespace DebtManagement.Web.Controllers
             {
                 return NotFound();
             }
+
+            var clients = await _clientService.GetAllClientsAsync();
+            ViewBag.Clients = new SelectList(clients, "Id", "Name");
+
             var debtDto = _mapper.Map<DebtDTO>(debt);
             return View(debtDto);
         }
@@ -70,6 +83,10 @@ namespace DebtManagement.Web.Controllers
                 await _debtService.UpdateDebtAsync(debt);
                 return RedirectToAction(nameof(Index));
             }
+
+            var clients = await _clientService.GetAllClientsAsync();
+            ViewBag.Clients = new SelectList(clients, "Id", "Name");
+
             return View(debtDto);
         }
 
@@ -105,6 +122,10 @@ namespace DebtManagement.Web.Controllers
     }
 }
 */
+
+
+
+
 using AutoMapper;
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Services;
