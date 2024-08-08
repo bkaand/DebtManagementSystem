@@ -14,6 +14,6 @@ namespace DebtManagement.Web.DTOs
         public decimal InterestRateYearly { get; set; }
         public decimal InsuranceAmount { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int ClientId { get; set; }
+        public Guid ClientId { get; set; }
     }
 }

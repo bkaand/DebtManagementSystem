@@ -91,7 +91,8 @@ public static class DataSeeder
         }
     }
 }
-*/using Microsoft.AspNetCore.Identity;
+*/
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -116,7 +117,7 @@ public static class DataSeeder
         var adminPassword = "Admin@123";
         var adminUser = await EnsureUserAsync(userManager, adminEmail, adminPassword, "Admin");
 
-        // Add dummy debts for the admin user
+        //dummy debts for the admin user
         if (!context.Debts.Any())
         {
             context.Debts.Add(new Debt
