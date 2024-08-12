@@ -210,7 +210,7 @@ public static class DataSeeder
             var debt1 = new Debt
             {
                 ClientId = adminUser.Id,
-                DebtType = "Loan",
+                DebtType = DebtManagement.Web.Entities.Enums.DebtType.Loan,
                 DebtAmount = 10000,
                 Installments = 12,
                 RemainingAmount = 8000,
@@ -220,11 +220,11 @@ public static class DataSeeder
                 InsuranceAmount = 200,
                 CreateDate = DateTime.Now
             };
-
+            
             var debt2 = new Debt
             {
                 ClientId = adminUser.Id,
-                DebtType = "Credit Card",
+                DebtType = DebtManagement.Web.Entities.Enums.DebtType.CreditCard,
                 DebtAmount = 5000,
                 Installments = 6,
                 RemainingAmount = 3000,
