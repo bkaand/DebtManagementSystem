@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DebtManagement.Web.DTOs.DebtDTO>
+﻿@model DebtManagement.Web.DTOs.DebtsViewModel
 
 @{
     ViewData["Title"] = "Debts";
@@ -9,13 +9,14 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-
-@if (Model == null || !Model.Any())
+@* kredit kart *@
+@if (Model == null || !Model.CreditCardDebts.Any())
 {
-    <p>No debts available.</p>
+    <p>No credit card debts available.</p>
 }
 else
 {
+    <h2>Credit Card debts</h2>
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +28,7 @@ else
             </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.CreditCardDebts)
         {
             <tr>
                 <td>@item.DebtType</td>
@@ -41,6 +42,44 @@ else
                 </td>
             </tr>
         }
+        </tbody>
+    </table>
+}
+
+
+@* Kredi *@
+@if (Model == null || !Model.LoanDebts.Any())
+{
+    <p>No Loan debts available.</p>
+}
+else
+{
+    <h2>Credit Card debts</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Debt Type</th>
+                <th>Debt Amount</th>
+                <th>Installments</th>
+                <th>Remaining Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoanDebts)
+            {
+                <tr>
+                    <td>@item.DebtType</td>
+                    <td>@item.DebtAmount</td>
+                    <td>@item.Installments</td>
+                    <td>@item.RemainingAmount</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }

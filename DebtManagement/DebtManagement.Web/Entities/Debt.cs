@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using DebtManagement.Web.Entities.Enums;
 
 namespace DebtManagement.Web.Entities
 {
@@ -13,7 +14,7 @@ namespace DebtManagement.Web.Entities
         [ForeignKey("ClientId")]
         public User Client { get; set; }
 
-        public string DebtType { get; set; }
+        public DebtType DebtType { get; set; }
 
         [Required]
         public decimal DebtAmount { get; set; }

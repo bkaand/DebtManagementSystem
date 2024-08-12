@@ -134,6 +134,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DebtManagement.Web.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DebtManagement.Web.Entities.Enums;
 
 namespace DebtManagement.Web.Controllers
 {
@@ -152,9 +153,20 @@ namespace DebtManagement.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var debts = await _debtService.GetAllDebtsAsync();
-            var debtDtos = _mapper.Map<IEnumerable<DebtDTO>>(debts);
-            return View(debtDtos);
+            DebtsViewModel viewModel = new DebtsViewModel();
+            viewModel.CreditCardDebts = _mapper.Map<List<DebtDTO>>(await _debtService.GetAllDebtsByTypeAsync(DebtType.CreditCard));
+            viewModel.LoanDebts = _mapper.Map<List<DebtDTO>>(await _debtService.GetAllDebtsByTypeAsync(DebtType.Loan));
+            viewModel.AvansDebts = _mapper.Map<List<DebtDTO>>(await _debtService.GetAllDebtsByTypeAsync(DebtType.Avans));
+            viewModel.OtherDebts = _mapper.Map<List<DebtDTO>>(await _debtService.GetAllDebtsByTypeAsync(DebtType.Other));
+
+            if(!viewModel.CreditCardDebts.Any() &&
+                !viewModel.LoanDebts.Any() &&
+                !viewModel.AvansDebts.Any() &&
+                !viewModel.OtherDebts.Any() )
+            {
+                viewModel.IsEmpty = true;
+            }
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Create()

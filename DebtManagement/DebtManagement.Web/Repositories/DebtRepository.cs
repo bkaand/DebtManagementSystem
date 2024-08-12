@@ -1,5 +1,6 @@
 using DebtManagement.Web.Data;
 using DebtManagement.Web.Entities;
+using DebtManagement.Web.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,6 +46,13 @@ namespace DebtManagement.Web.Repositories
                 _context.Debts.Remove(debt);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type)
+        {
+            var list = await _context.Debts.Where(x => x.DebtType == type).ToListAsync();
+
+            return list;
         }
     }
 }
