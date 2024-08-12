@@ -267,7 +267,7 @@ public static class DataSeeder
                 AmountPaid = 800m,
                 PaymentDate = DateTime.Now.AddMonths(-1)
             });
-
+            
             await context.SaveChangesAsync();
         }
     }

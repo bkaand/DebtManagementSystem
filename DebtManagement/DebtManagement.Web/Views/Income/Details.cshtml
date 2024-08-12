@@ -1,0 +1,30 @@
+@model DebtManagement.Web.DTOs.IncomeDto
+
+@{
+    ViewData["Title"] = "Income Details";
+}
+
+<h1>Income Details</h1>
+
+<div>
+    <h4>Income</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MonthlyIncome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MonthlyIncome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AdditionalIncomeSources)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AdditionalIncomeSources)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
+</div>

@@ -1,4 +1,4 @@
-using AutoMapper;
+/*using AutoMapper;
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +69,110 @@ namespace DebtManagement.Web.Controllers
         {
             await _incomeService.DeleteIncomeAsync(id);
             return NoContent();
+        }
+    }
+}
+*/
+using AutoMapper;
+using DebtManagement.Web.DTOs;
+using DebtManagement.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DebtManagement.Web.Controllers
+{
+    public class IncomeController : Controller
+    {
+        private readonly IIncomeService _incomeService;
+        private readonly IMapper _mapper;
+
+        public IncomeController(IIncomeService incomeService, IMapper mapper)
+        {
+            _incomeService = incomeService;
+            _mapper = mapper;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var incomes = await _incomeService.GetAllIncomesAsync();
+            var incomeDtos = _mapper.Map<IEnumerable<IncomeDto>>(incomes);
+            return View(incomeDtos);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var income = await _incomeService.GetIncomeByIdAsync(id);
+            if (income == null)
+            {
+                return NotFound();
+            }
+            var incomeDto = _mapper.Map<IncomeDto>(income);
+            return View(incomeDto);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(IncomeDto incomeDto)
+        {
+            if (ModelState.IsValid)
+            {
+                await _incomeService.AddIncomeAsync(incomeDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(incomeDto);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var income = await _incomeService.GetIncomeByIdAsync(id);
+            if (income == null)
+            {
+                return NotFound();
+            }
+            var incomeDto = _mapper.Map<IncomeDto>(income);
+            return View(incomeDto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, IncomeDto incomeDto)
+        {
+            if (id != incomeDto.Id)
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                await _incomeService.UpdateIncomeAsync(incomeDto);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(incomeDto);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var income = await _incomeService.GetIncomeByIdAsync(id);
+            if (income == null)
+            {
+                return NotFound();
+            }
+            var incomeDto = _mapper.Map<IncomeDto>(income);
+            return View(incomeDto);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _incomeService.DeleteIncomeAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
