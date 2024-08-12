@@ -79,6 +79,9 @@ using (var scope = app.Services.CreateScope())
 
 app.Run();
 */
+
+
+
 using DebtManagement.Web.Data;
 using DebtManagement.Web.Entities;
 using DebtManagement.Web.Repositories;
@@ -154,7 +157,11 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "payments",
-    pattern: "{controller=Debts}/{action=Index}/{id?}");
+    pattern: "{controller=Payment}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "incomes",
+    pattern: "{controller=Income}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())

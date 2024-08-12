@@ -179,7 +179,6 @@ public static class DataSeeder
 }
 */
 
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -267,7 +266,22 @@ public static class DataSeeder
                 AmountPaid = 800m,
                 PaymentDate = DateTime.Now.AddMonths(-1)
             });
-            
+
+            // Dummy incomes for the admin user
+            context.Incomes.Add(new Income
+            {
+                ClientId = adminUser.Id,
+                MonthlyIncome = 3000m,
+                CreateDate = DateTime.Now
+            });
+
+            context.Incomes.Add(new Income
+            {
+                ClientId = adminUser.Id,
+                MonthlyIncome = 3200m,
+                CreateDate = DateTime.Now.AddMonths(-1)
+            });
+
             await context.SaveChangesAsync();
         }
     }
