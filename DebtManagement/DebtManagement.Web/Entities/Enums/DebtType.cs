@@ -5,6 +5,7 @@
         CreditCard = 0,
         Loan = 1,
         Avans = 2,
-        Other = 3,
+        MonthlyRents = 3,
+        Other = 4,
     }
 }
