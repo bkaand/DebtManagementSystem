@@ -2,94 +2,69 @@
 
 <h1>Financial Overview</h1>
 
-<p>Total Debt: @Model.TotalDebt</p>
-<p>Total Income: @Model.TotalIncome</p>
-<p>Total Payments: @Model.TotalPayments</p>
-<p>Net Balance: @Model.NetBalance</p>
+<!-- Income Distribution Chart -->
+<div class="chart-container">
+    <h2>Income Distribution</h2>
+    <canvas id="incomeChart"></canvas>
+</div>
 
-<h2>Debts</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Debt Type</th>
-            <th>Amount</th>
-            <th>Remaining Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var debt in Model.Debts)
-        {
-            <tr>
-                <td>@debt.DebtType</td>
-                <td>@debt.DebtAmount</td>
-                <td>@debt.RemainingAmount</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Debt Distribution Chart -->
+<div class="chart-container">
+    <h2>Debt Distribution</h2>
+    <canvas id="debtChart"></canvas>
+</div>
 
-<h2>Incomes</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Source</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var income in Model.Incomes)
-        {
-            <tr>
-                <td>@income.Source</td>
-                <td>@income.MonthlyIncome</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Payment Trends Chart -->
+<div class="chart-container">
+    <h2>Payment Trends</h2>
+    <canvas id="paymentChart"></canvas>
+</div>
 
-<h2>Payments</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var payment in Model.Payments)
-        {
-            <tr>
-                <td>@payment.PaymentDate.ToString("d")</td>
-                <td>@payment.AmountPaid</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<h2>Income Distribution</h2>
+<!-- Analysis Section -->
 <div>
-    <canvas id="incomeChart" width="400" height="200"></canvas>
+    <h2>Analysis</h2>
+    <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
+    <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
+    <p>The month with the highest payment is: @Model.PaymentLabels.FirstOrDefault()</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('incomeChart').getContext('2d');
-
-    var incomeData = {
-        labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)),  // Labels for x-axis
-        datasets: [{
-            label: 'Monthly Income',
-            data: @Html.Raw(Json.Serialize(Model.IncomeValues)), // Data for y-axis
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }]
-    };
-
-    var myChart = new Chart(ctx, {
-        type: 'bar',  // Chart type change this to something else to see different chart types or add a new one
-        data: incomeData,
+    // Doughnut Chart for Income Distribution
+    var ctxIncome = document.getElementById('incomeChart').getContext('2d');
+    var incomeChart = new Chart(ctxIncome, {
+        type: 'doughnut',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.IncomeValues)),
+                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                borderWidth: 1
+            }]
+        },
         options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Bar Chart for Debt Distribution
+    var ctxDebt = document.getElementById('debtChart').getContext('2d');
+    var debtChart = new Chart(ctxDebt, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.DebtLabels)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.DebtValues)),
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true
@@ -97,4 +72,37 @@
             }
         }
     });
+
+    // Polar Area Chart for Payment Trends
+    var ctxPayment = document.getElementById('paymentChart').getContext('2d');
+    var paymentChart = new Chart(ctxPayment, {
+        type: 'polarArea',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.PaymentLabels)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(Model.PaymentValues)),
+                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 </script>
+
+<style>
+    .chart-container {
+        width: 300px;
+        height: 150px;
+        margin: 0 auto;
+    }
+
+    canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
