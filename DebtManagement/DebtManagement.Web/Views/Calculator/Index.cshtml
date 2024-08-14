@@ -21,7 +21,7 @@
 </div>
 
 <!-- Analysis Section -->
-<div>
+<div class="analysis-section">
     <h2>Analysis</h2>
     <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
     <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
@@ -95,14 +95,30 @@
 
 <style>
     .chart-container {
-        width: 300px;
-        height: 150px;
-        margin: 0 auto;
+        width: 400px;
+        height: 300px;
+        margin: 50px auto;
+    }
+
+    .analysis-section {
+        padding: 20px;
+        margin-top: 40px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
     }
 
     canvas {
         display: block;
         width: 100% !important;
         height: 100% !important;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    p {
+        text-align: center;
+        font-size: 1.1em;
     }
 </style>
