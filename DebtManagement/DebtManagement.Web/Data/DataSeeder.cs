@@ -8,6 +8,7 @@ using DebtManagement.Web.Data;
 
 public static class DataSeeder
 {
+
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
         var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
@@ -22,7 +23,7 @@ public static class DataSeeder
         var adminEmail = "admin@example.com";
         var adminPassword = "Admin@123";
         var adminUser = await EnsureUserAsync(userManager, adminEmail, adminPassword, "Admin");
-
+        /*
         // Dummy debts for the admin user
         if (!context.Debts.Any())
         {
@@ -102,8 +103,9 @@ public static class DataSeeder
             });
 
             await context.SaveChangesAsync();
-        }
+        }*/
     }
+
 
     private static async Task EnsureRoleAsync(RoleManager<IdentityRole> roleManager, string roleName)
     {

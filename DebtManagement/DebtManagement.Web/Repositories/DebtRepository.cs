@@ -3,6 +3,7 @@ using DebtManagement.Web.Entities;
 using DebtManagement.Web.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DebtManagement.Web.Repositories
@@ -19,6 +20,16 @@ namespace DebtManagement.Web.Repositories
         public async Task<IEnumerable<Debt>> GetAllDebtsAsync()
         {
             return await _context.Debts.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type)
+        {
+            return await _context.Debts.Where(x => x.DebtType == type).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Debt>> GetDebtsByUserIdAndTypeAsync(string userId, DebtType type)  // New method implementation
+        {
+            return await _context.Debts.Where(x => x.ClientId == userId && x.DebtType == type).ToListAsync();
         }
 
         public async Task<Debt> GetDebtByIdAsync(int debtId)
@@ -46,13 +57,6 @@ namespace DebtManagement.Web.Repositories
                 _context.Debts.Remove(debt);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type)
-        {
-            var list = await _context.Debts.Where(x => x.DebtType == type).ToListAsync();
-
-            return list;
         }
     }
 }

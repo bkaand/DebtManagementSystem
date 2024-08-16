@@ -20,6 +20,16 @@ namespace DebtManagement.Web.Services
             return await _debtRepository.GetAllDebtsAsync();
         }
 
+        public async Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type)
+        {
+            return await _debtRepository.GetAllDebtsByTypeAsync(type);
+        }
+
+        public async Task<IEnumerable<Debt>> GetDebtsByUserIdAndTypeAsync(string userId, DebtType type)  // New method implementation
+        {
+            return await _debtRepository.GetDebtsByUserIdAndTypeAsync(userId, type);
+        }
+
         public async Task<Debt> GetDebtByIdAsync(int id)
         {
             return await _debtRepository.GetDebtByIdAsync(id);
@@ -38,13 +48,6 @@ namespace DebtManagement.Web.Services
         public async Task DeleteDebtAsync(int id)
         {
             await _debtRepository.DeleteDebtAsync(id);
-        }
-
-        public async Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type)
-        {
-            var list = await _debtRepository.GetAllDebtsByTypeAsync(type);
-
-            return list;
         }
     }
 }
