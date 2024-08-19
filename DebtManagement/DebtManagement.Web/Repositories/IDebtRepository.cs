@@ -9,7 +9,7 @@ namespace DebtManagement.Web.Repositories
     {
         Task<IEnumerable<Debt>> GetAllDebtsAsync();
         Task<IEnumerable<Debt>> GetAllDebtsByTypeAsync(DebtType type);
-        Task<IEnumerable<Debt>> GetDebtsByUserIdAndTypeAsync(string userId, DebtType type);  // New method
+        Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type);  // Add this method
         Task<Debt> GetDebtByIdAsync(int debtId);
         Task AddDebtAsync(Debt debt);
         Task UpdateDebtAsync(Debt debt);

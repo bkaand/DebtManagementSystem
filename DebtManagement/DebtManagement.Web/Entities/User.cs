@@ -7,6 +7,7 @@ namespace DebtManagement.Web.Entities
     public class User : IdentityUser
     {
         public string ClientName { get; set; }
+        public string ClientId { get; set; }//hgchgcgcg added this but might be unnecessary  
         public DateTime CreatedDate { get; set; }
         public DateTime LastLoginDate { get; set; }
         public string FirstName { get; set; }  
