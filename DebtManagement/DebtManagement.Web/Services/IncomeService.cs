@@ -24,6 +24,12 @@ namespace DebtManagement.Web.Services
             return _mapper.Map<IEnumerable<IncomeDto>>(incomes);
         }
 
+        public async Task<IEnumerable<IncomeDto>> GetIncomesByClientIdAsync(string clientId)
+        {
+            var incomes = await _incomeRepository.GetIncomesByClientIdAsync(clientId);
+            return _mapper.Map<IEnumerable<IncomeDto>>(incomes);
+        }
+
         public async Task<IncomeDto> GetIncomeByIdAsync(int incomeId)
         {
             var income = await _incomeRepository.GetIncomeByIdAsync(incomeId);

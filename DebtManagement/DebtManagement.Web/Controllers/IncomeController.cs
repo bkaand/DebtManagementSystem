@@ -76,9 +76,11 @@ namespace DebtManagement.Web.Controllers
 using AutoMapper;
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DebtManagement.Web.Entities;
 
 namespace DebtManagement.Web.Controllers
 {
@@ -86,16 +88,19 @@ namespace DebtManagement.Web.Controllers
     {
         private readonly IIncomeService _incomeService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public IncomeController(IIncomeService incomeService, IMapper mapper)
+        public IncomeController(IIncomeService incomeService, IMapper mapper, UserManager<User> userManager)
         {
             _incomeService = incomeService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var incomes = await _incomeService.GetAllIncomesAsync();
+            var userId = _userManager.GetUserId(User);
+            var incomes = await _incomeService.GetIncomesByClientIdAsync(userId);//kjwebfjwbfjhebwf userid or clientid
             var incomeDtos = _mapper.Map<IEnumerable<IncomeDto>>(incomes);
             return View(incomeDtos);
         }
@@ -122,6 +127,7 @@ namespace DebtManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                incomeDto.ClientId = _userManager.GetUserId(User); // Set the ClientId to the current user's ID
                 await _incomeService.AddIncomeAsync(incomeDto);
                 return RedirectToAction(nameof(Index));
             }

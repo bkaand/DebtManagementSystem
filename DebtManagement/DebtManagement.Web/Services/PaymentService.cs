@@ -49,8 +49,7 @@ namespace DebtManagement.Web.Services
         }
     }
 }
-*/
-using AutoMapper;
+*/using AutoMapper;
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Entities;
 using DebtManagement.Web.Repositories;
@@ -73,6 +72,12 @@ namespace DebtManagement.Web.Services
         public async Task<IEnumerable<PaymentDTO>> GetAllPaymentsAsync()
         {
             var payments = await _paymentRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<PaymentDTO>>(payments);
+        }
+
+        public async Task<IEnumerable<PaymentDTO>> GetPaymentsByClientIdAsync(string clientId)
+        {
+            var payments = await _paymentRepository.GetPaymentsByClientIdAsync(clientId);
             return _mapper.Map<IEnumerable<PaymentDTO>>(payments);
         }
 

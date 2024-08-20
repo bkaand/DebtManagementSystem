@@ -20,6 +20,13 @@ namespace DebtManagement.Web.Repositories
             return await _context.Incomes.ToListAsync();
         }
 
+        public async Task<IEnumerable<Income>> GetIncomesByClientIdAsync(string clientId)
+        {
+            return await _context.Incomes
+                                 .Where(income => income.ClientId == clientId)
+                                 .ToListAsync();
+        }
+
         public async Task<Income> GetIncomeByIdAsync(int incomeId)
         {
             return await _context.Incomes.FindAsync(incomeId);

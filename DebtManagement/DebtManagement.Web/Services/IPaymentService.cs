@@ -27,6 +27,7 @@ namespace DebtManagement.Web.Services
     public interface IPaymentService
     {
         Task<IEnumerable<PaymentDTO>> GetAllPaymentsAsync();
+        Task<IEnumerable<PaymentDTO>> GetPaymentsByClientIdAsync(string clientId);
         Task<PaymentDTO> GetPaymentByIdAsync(int id);
         Task AddPaymentAsync(PaymentDTO paymentDto);
         Task UpdatePaymentAsync(PaymentDTO paymentDto);

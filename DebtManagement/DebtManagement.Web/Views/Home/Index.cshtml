@@ -4,10 +4,32 @@
 
 <div class="container mt-5">
     <div class="jumbotron text-center">
-        <h1 class="display-4">Welcome to Debt Management System</h1>
+        <h1 class="display-4">Welcome to the Debt Management System</h1>
         <p class="lead">Efficiently manage your debts and payments with our system.</p>
         <hr class="my-4">
-        <p>Get started by managing your clients and tracking their debts.</p>
-        <a class="btn btn-primary btn-lg" asp-controller="Clients" asp-action="Index" role="button">Manage Clients</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>Your Client ID: @ViewBag.ClientId</p>
+            <p>Get started by managing your debts and incomes.</p>
+        }
+        else
+        {
+            <p>Please log in to access your client ID and manage your debts.</p>
+        }
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <h3>Track Your Debts</h3>
+            <p>Keep an eye on all your debts in one place and never miss a payment.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Manage Your Income</h3>
+            <p>Organize your income sources and plan your finances effectively.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Analyze Your Spending</h3>
+            <p>Get detailed reports and insights on your spending habits.</p>
+        </div>
     </div>
 </div>

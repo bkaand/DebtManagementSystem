@@ -7,6 +7,7 @@ namespace DebtManagement.Web.Repositories
     public interface IPaymentRepository : IGenericRepository<Payment>
     {
         Task<IEnumerable<Payment>> GetAllAsync();
+        Task<IEnumerable<Payment>> GetPaymentsByClientIdAsync(string clientId);
         Task<Payment> GetByIdAsync(int id);
         Task AddAsync(Payment payment);
         Task UpdateAsync(Payment payment);

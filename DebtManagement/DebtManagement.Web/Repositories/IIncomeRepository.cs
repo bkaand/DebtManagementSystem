@@ -7,6 +7,7 @@ namespace DebtManagement.Web.Repositories
     public interface IIncomeRepository
     {
         Task<IEnumerable<Income>> GetAllIncomesAsync();
+        Task<IEnumerable<Income>> GetIncomesByClientIdAsync(string clientId); // New method to get incomes by client ID
         Task<Income> GetIncomeByIdAsync(int incomeId);
         Task AddIncomeAsync(Income income);
         Task UpdateIncomeAsync(Income income);

@@ -99,11 +99,11 @@ namespace DebtManagement.Web.Controllers
     }
 }
 */
-
 using AutoMapper;
 using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Entities;
 using DebtManagement.Web.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -114,16 +114,22 @@ namespace DebtManagement.Web.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-        public PaymentController(IPaymentService paymentService, IMapper mapper)
+        public PaymentController(IPaymentService paymentService, IMapper mapper, UserManager<User> userManager)
         {
             _paymentService = paymentService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var payments = await _paymentService.GetAllPaymentsAsync();
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch payments related to the logged-in user
+            var payments = await _paymentService.GetPaymentsByClientIdAsync(userId);
             var paymentDtos = _mapper.Map<IEnumerable<PaymentDTO>>(payments);
             return View(paymentDtos);
         }
@@ -150,8 +156,10 @@ namespace DebtManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var paymentMapped = _mapper.Map<Payment>(paymentDto);
-                var paymentDtoMapped = _mapper.Map<PaymentDTO>(paymentMapped);
+                // Ensure the payment is associated with the current user's Client ID
+                var userId = _userManager.GetUserId(User);
+                paymentDto.ClientId = userId;
+
                 await _paymentService.AddPaymentAsync(paymentDto);
                 return RedirectToAction(nameof(Index));
             }
@@ -175,9 +183,9 @@ namespace DebtManagement.Web.Controllers
         {
             if (id != paymentDto.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
-        
+
             if (ModelState.IsValid)
             {
                 await _paymentService.UpdatePaymentAsync(paymentDto);
@@ -196,7 +204,6 @@ namespace DebtManagement.Web.Controllers
             var paymentDto = _mapper.Map<PaymentDTO>(payment);
             return View(paymentDto);
         }
-
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
