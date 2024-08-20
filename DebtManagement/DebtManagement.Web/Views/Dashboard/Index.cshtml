@@ -4,11 +4,50 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h2>Dashboard</h2>
-<div>
-    <p>Total Users: @Model.TotalUsers</p>
-    <p>Total Clients: @Model.TotalClients</p>
-    <p>Total Debts: @Model.TotalDebts</p>
-    <p>Total Payments: @Model.TotalPayments</p>
-    <p>Total Incomes: @Model.TotalIncomes</p>
+<div class="container mt-5">
+    <h2 class="text-center">Dashboard</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.TotalUsers</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total Clients</div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.TotalClients</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Total Debts</div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.TotalDebts</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Total Payments</div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.TotalPayments</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Total Incomes</div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.TotalIncomes</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

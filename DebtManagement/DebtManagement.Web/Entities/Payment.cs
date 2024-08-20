@@ -11,6 +11,6 @@ namespace DebtManagement.Web.Entities
         public decimal AmountPaid { get; set; }
         public DateTime PaymentDate { get; set; }
         public virtual Debt Debt { get; set; }
-        public string ClientId { get; set; }//new
+        public string ClientId { get; set; }//new???
     }
 }
