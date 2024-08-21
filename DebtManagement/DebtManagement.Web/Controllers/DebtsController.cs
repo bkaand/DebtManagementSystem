@@ -214,9 +214,10 @@ namespace DebtManagement.Web.Controllers
 
             var clients = await _clientService.GetAllClientsAsync();
             ViewBag.Clients = new SelectList(clients, "Id", "Name", clientId); // Automatically select the current user
-
+            
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

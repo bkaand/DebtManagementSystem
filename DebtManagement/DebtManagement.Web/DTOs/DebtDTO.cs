@@ -1,4 +1,5 @@
 using DebtManagement.Web.Entities.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DebtManagement.Web.DTOs
 {
@@ -7,6 +8,7 @@ namespace DebtManagement.Web.DTOs
         public int Id { get; set; } 
         public int DebtId { get; set; }
         public DebtType DebtType { get; set; }
+        public List<SelectListItem> DebtTypesList { get; set; }
         public string ClientName { get; set; } = default!;// i am not sure if this is necessary or not
         public decimal DebtAmount { get; set; }
         public int Installments { get; set; }

@@ -63,7 +63,8 @@ namespace DebtManagement.Web.Controllers
             var debts = await _debtService.GetAllDebtsAsync();
             var incomes = await _incomeService.GetAllIncomesAsync();
             var payments = await _paymentService.GetAllPaymentsAsync();
-
+            var totalDebts= debts.Sum(d => d.DebtAmount);// use them for total debt vs income
+            var incomeTotal= incomes.Sum(i => i.MonthlyIncome);//same 
             // Map data to DTOs
             viewModel.Debts = _mapper.Map<List<DebtDTO>>(debts);
             viewModel.Incomes = _mapper.Map<List<IncomeDto>>(incomes);
@@ -83,3 +84,4 @@ namespace DebtManagement.Web.Controllers
         }
     }
 }
+//total income vs total debt
