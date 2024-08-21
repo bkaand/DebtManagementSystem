@@ -24,10 +24,7 @@ namespace DebtManagement.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Get the current user's ID
             var userId = _userManager.GetUserId(User);
-
-            // Fetch payments related to the logged-in user
             var payments = await _paymentService.GetPaymentsByClientIdAsync(userId);
             var paymentDtos = _mapper.Map<IEnumerable<PaymentDTO>>(payments);
             return View(paymentDtos);
@@ -55,10 +52,8 @@ namespace DebtManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Ensure the payment is associated with the current user's Client ID
                 var userId = _userManager.GetUserId(User);
                 paymentDto.ClientId = userId;
-
                 await _paymentService.AddPaymentAsync(paymentDto);
                 return RedirectToAction(nameof(Index));
             }
