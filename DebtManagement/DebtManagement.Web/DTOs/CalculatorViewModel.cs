@@ -4,9 +4,13 @@ namespace DebtManagement.Web.DTOs
 {
     public class CalculatorViewModel
     {
-        public List<DebtDTO> Debts { get; set; }
-        public List<IncomeDto> Incomes { get; set; }
-        public List<PaymentDTO> Payments { get; set; }
+        //public List<DebtDTO> Debts { get; set; }
+        //public List<IncomeDto> Incomes { get; set; }
+        //public List<PaymentDTO> Payments { get; set; }
+
+        public decimal TotalDebts { get; set; }
+        public decimal TotalIncomes { get; set; }
+        public decimal ThisMonthInstallments { get; set; }
 
         public List<string> IncomeLabels { get; set; }
         public List<decimal> IncomeValues { get; set; }
@@ -17,9 +21,9 @@ namespace DebtManagement.Web.DTOs
 
         public CalculatorViewModel()
         {
-            Debts = new List<DebtDTO>();
-            Incomes = new List<IncomeDto>();
-            Payments = new List<PaymentDTO>();
+            //Debts = new List<DebtDTO>();
+            //Incomes = new List<IncomeDto>();
+            //Payments = new List<PaymentDTO>();
 
             IncomeLabels = new List<string>();
             IncomeValues = new List<decimal>();

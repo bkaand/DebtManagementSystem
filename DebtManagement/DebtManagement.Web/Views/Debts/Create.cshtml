@@ -13,7 +13,9 @@
         <form asp-action="Create">
             <div class="form-group">
                 <label asp-for="DebtType" class="control-label"></label>
-                <input asp-for="DebtType" class="form-control" />
+                <select asp-for="DebtType" class="form-control" asp-items="@Model.DebtTypesList">
+                    <option value="">-- Select Debt Type --</option>
+                </select>
                 <span asp-validation-for="DebtType" class="text-danger"></span>
             </div>
             <div class="form-group">

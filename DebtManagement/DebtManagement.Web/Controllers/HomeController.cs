@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DebtManagement.Web.Entities;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DebtManagement.Web.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,7 +19,7 @@ namespace DebtManagement.Web.Controllers
             _logger = logger;
             _userManager = userManager;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)

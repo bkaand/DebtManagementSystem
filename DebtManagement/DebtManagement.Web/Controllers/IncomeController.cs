@@ -3,12 +3,12 @@ using DebtManagement.Web.DTOs;
 using DebtManagement.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DebtManagement.Web.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DebtManagement.Web.Controllers
 {
+    [Authorize]
     public class IncomeController : Controller
     {
         private readonly IIncomeService _incomeService;

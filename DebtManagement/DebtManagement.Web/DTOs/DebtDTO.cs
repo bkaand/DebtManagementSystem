@@ -8,10 +8,11 @@ namespace DebtManagement.Web.DTOs
         public int Id { get; set; } 
         public int DebtId { get; set; }
         public DebtType DebtType { get; set; }
-        public List<SelectListItem> DebtTypesList { get; set; }
+        public List<SelectListItem> DebtTypesList { get; set; } = new List<SelectListItem>();
         public string ClientName { get; set; } = default!;// i am not sure if this is necessary or not
         public decimal DebtAmount { get; set; }
         public int Installments { get; set; }
+        public decimal InstallmentAmount { get; set; }
         public int InstallmentsPaid { get; set; } // 5/12 format structure
         public decimal RemainingAmount { get; set; }
         public decimal EarlyClosingAmount { get; set; }
