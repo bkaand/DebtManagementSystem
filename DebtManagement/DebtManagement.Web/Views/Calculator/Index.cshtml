@@ -20,12 +20,21 @@
     <canvas id="paymentChart"></canvas>
 </div>
 
+<!-- Total Debts vs Total Incomes Monthly Comparison Chart -->
+<div class="chart-container">
+    <h2>Total Debts vs Total Incomes Monthly</h2>
+    <canvas id="debtVsIncomeChart"></canvas>
+</div>
+
 <!-- Analysis Section -->
 <div class="analysis-section">
     <h2>Analysis</h2>
     <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
     <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
     <p>The month with the highest payment is: @Model.PaymentLabels.FirstOrDefault()</p>
+    <p>Total Debts: @Model.TotalDebts</p>
+    <p>Total Incomes: @Model.TotalIncomes</p>
+    <p>This Month's Installments: @Model.ThisMonthInstallments</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -89,6 +98,35 @@
         options: {
             responsive: true,
             maintainAspectRatio: false
+        }
+    });
+
+    // Bar Chart for Monthly Debts vs Income Comparison
+    var ctxDebtVsIncome = document.getElementById('debtVsIncomeChart').getContext('2d');
+    var debtVsIncomeChart = new Chart(ctxDebtVsIncome, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.MonthLabels)),
+            datasets: [{
+                label: 'Total Debts',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyDebtValues)),
+                borderColor: 'rgba(255, 99, 132, 1)',
+                fill: false
+            }, {
+                label: 'Total Incomes',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyIncomeValues)),
+                borderColor: 'rgba(54, 162, 235, 1)',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
 </script>

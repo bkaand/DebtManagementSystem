@@ -25,7 +25,12 @@ namespace DebtManagement.Web.Services
             return await _debtRepository.GetAllDebtsByTypeAsync(type);
         }
 
-        public async Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type)  // Add this method
+        public async Task<IEnumerable<Debt>> GetDebtsByClientIdAsync(string clientId)
+        {
+            return await _debtRepository.GetAllDebtsAsync(); // Modified to get all debt types
+        }
+
+        public async Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type)
         {
             return await _debtRepository.GetDebtsByClientIdAndTypeAsync(clientId, type);
         }

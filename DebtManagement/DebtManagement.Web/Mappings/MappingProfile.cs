@@ -25,7 +25,10 @@ namespace DebtManagement.Web.Mapping
                 .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId));
 
             CreateMap<Income, IncomeDto>()
-                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId));
+                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId))
+                .ForMember(dest => dest.Source, opt => opt.MapFrom(src => 
+                    string.IsNullOrEmpty(src.AdditionalIncomeSources) ? "Primary" : src.AdditionalIncomeSources));
+
             CreateMap<IncomeDto, Income>()
                 .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId));
 
