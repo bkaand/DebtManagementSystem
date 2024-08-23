@@ -45,16 +45,26 @@
     <!-- Income Distribution Chart -->
     <div class="col-md-6 chart-container">
         <h2>Income Distribution</h2>
-        <p>Total Income:<b> @Model.TotalIncomes</b>     </p>
+        <p>Total Income:<b> @Model.TotalIncomes</b></p>
         <canvas id="incomeChart"></canvas>
     </div>
+
+<div class="row">
+    <!-- Spacer between charts -->
+    <div class="col-md-12" style="height: 100px;"></div>
+</div>
 
     <!-- Debt Distribution Chart -->
     <div class="col-md-6 chart-container">
         <h2>Debt Distribution</h2>
-        <p>Total Income:<b> @Model.TotalDebts</b></p>
+        <p>Total Debt:<b> @Model.TotalDebts</b></p>
         <canvas id="debtChart"></canvas>
     </div>
+</div>
+
+<div class="row">
+    <!-- Spacer between charts -->
+    <div class="col-md-12" style="height: 100px;"></div>
 </div>
 
 <div class="row">
@@ -75,7 +85,6 @@
         <p>Total Incomes: @Model.TotalIncomes</p>
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -107,7 +116,7 @@
         }
     });
 
-    // Bar Chart for Debt Distribution
+    // Bar Chart for Debt Distribution-- doughnut
     var ctxDebt = document.getElementById('debtChart').getContext('2d');
     var debtChart = new Chart(ctxDebt, {
         type: 'doughnut',
@@ -115,29 +124,23 @@
             labels: @Html.Raw(Json.Serialize(Model.DebtLabels)),
             datasets: [{
                 data: @Html.Raw(Json.Serialize(Model.DebtValues)),
-                backgroundColor: '#ffcd56',
-                borderColor: '#ff9f40',
+                backgroundColor: [
+                    '#ffcd56', '#ff9f40', '#ff6384', '#36a2eb', '#cc65fe', '#ffce56'
+                ],
+                borderColor: '#ffffff',
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function (value) {
-                            return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                        }
-                    }
-                }
-            },
             plugins: {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return context.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                            var label = context.label || '';
+                            var value = context.raw !== null ? context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : '';
+                            return label + ': ' + value;
                         }
                     }
                 }
