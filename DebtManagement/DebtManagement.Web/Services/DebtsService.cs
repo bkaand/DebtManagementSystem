@@ -54,5 +54,10 @@ namespace DebtManagement.Web.Services
         {
             await _debtRepository.DeleteDebtAsync(id);
         }
+
+        public async Task<IEnumerable<Debt>> GetDebtsByClientId(string clientId, DebtType type)
+        {
+            return await _debtRepository.GetDebtsByClientId(clientId);
+        }
     }
 }

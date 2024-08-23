@@ -52,7 +52,7 @@ namespace DebtManagement.Web.Controllers
             var totalIncome = incomes.Sum(i => i.MonthlyIncome);
 
             viewModel.TotalDebts = totalDebts;
-            viewModel.TotalIncomes = 500;
+            viewModel.TotalIncomes = totalIncome;
 
             // Populate Debt and Income distribution data
             var debtTypes = debts.GroupBy(d => d.DebtType)

@@ -44,8 +44,10 @@ namespace DebtManagement.Web.Services
 
         public async Task UpdateIncomeAsync(IncomeDto incomeDto)
         {
-            var income = _mapper.Map<Income>(incomeDto);
-            await _incomeRepository.UpdateIncomeAsync(income);
+            var oldIncome = await _incomeRepository.GetIncomeByIdAsync(incomeDto.Id);
+            oldIncome.MonthlyIncome = incomeDto.MonthlyIncome;
+            oldIncome.AdditionalIncomeSources = incomeDto.AdditionalIncomeSources ?? "";
+            await _incomeRepository.UpdateIncomeAsync(oldIncome);
         }
 
         public async Task DeleteIncomeAsync(int incomeId)

@@ -3,15 +3,56 @@
 <h1>Financial Overview</h1>
 
 <div class="row">
+    <!-- Income vs Debt Difference Section -->
+    <div class="difference-section">
+        @{
+            var difference = Model.TotalIncomes - Model.TotalDebts;
+            var ratio = Model.TotalIncomes / (Model.TotalDebts == 0 ? 1 : Model.TotalDebts);
+            string emoji;
+            string explanation;
+
+            if (ratio > 1.2m)
+            {
+                emoji = "😊";
+                explanation = "You are in a great financial position! Keep up the good work.";
+            }
+            else if (ratio >= 0.8m && ratio <= 1.2m)
+            {
+                emoji = "😐";
+                explanation = "Your income and debts are balanced. Consider saving more.";
+            }
+            else
+            {
+                emoji = "😟";
+                explanation = "Your debts exceed your income. It's time to review your finances.";
+            }
+        }
+
+        <h2>Income vs Debt Difference</h2>
+        <div class="difference-result">
+            <p style="font-size: 1.2em;">
+                Difference: <strong>@difference.ToString("C")</strong>
+                <span class="emoji" style="font-size: 2.5em;">@emoji</span>
+            </p>
+            <p class="explanation" style="font-size: 0.9em;">
+                @explanation
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <!-- Income Distribution Chart -->
     <div class="col-md-6 chart-container">
         <h2>Income Distribution</h2>
+        <p>Total Income:<b> @Model.TotalIncomes</b>     </p>
         <canvas id="incomeChart"></canvas>
     </div>
 
     <!-- Debt Distribution Chart -->
     <div class="col-md-6 chart-container">
         <h2>Debt Distribution</h2>
+        <p>Total Income:<b> @Model.TotalDebts</b></p>
         <canvas id="debtChart"></canvas>
     </div>
 </div>
@@ -25,50 +66,16 @@
 </div>
 
 <!-- Analysis Section -->
-<div class="analysis-section">
-    <h2>Analysis</h2>
-    <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
-    <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
-    <p>Total Debts: @Model.TotalDebts</p>
-    <p>Total Incomes: @Model.TotalIncomes</p>
-</div>
-
-<!-- Income vs Debt Difference Section -->
-<div class="difference-section">
-    @{
-        var difference = Model.TotalIncomes - Model.TotalDebts;
-        var ratio = Model.TotalIncomes / (Model.TotalDebts == 0 ? 1 : Model.TotalDebts);
-        string emoji;
-        string explanation;
-
-        if (ratio > 1.2m)
-        {
-            emoji = "😊";
-            explanation = "You are in a great financial position! Keep up the good work.";
-        }
-        else if (ratio >= 0.8m && ratio <= 1.2m)
-        {
-            emoji = "😐";
-            explanation = "Your income and debts are balanced. Consider saving more.";
-        }
-        else
-        {
-            emoji = "😟";
-            explanation = "Your debts exceed your income. It's time to review your finances.";
-        }
-    }
-
-    <h2>Income vs Debt Difference</h2>
-    <div class="difference-result">
-        <p style="font-size: 1.2em;">
-            Difference: <strong>@difference.ToString("C")</strong>
-            <span class="emoji" style="font-size: 2.5em;">@emoji</span>
-        </p>
-        <p class="explanation" style="font-size: 0.9em;">
-            @explanation
-        </p>
+<div class="row">
+    <div class="analysis-section">
+        <h2>Analysis</h2>
+        <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
+        <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
+        <p>Total Debts: @Model.TotalDebts</p>
+        <p>Total Incomes: @Model.TotalIncomes</p>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -91,7 +98,7 @@
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return context.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         }
                     }
@@ -103,7 +110,7 @@
     // Bar Chart for Debt Distribution
     var ctxDebt = document.getElementById('debtChart').getContext('2d');
     var debtChart = new Chart(ctxDebt, {
-        type: 'bar',
+        type: 'doughnut',
         data: {
             labels: @Html.Raw(Json.Serialize(Model.DebtLabels)),
             datasets: [{
@@ -120,7 +127,7 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: function(value) {
+                        callback: function (value) {
                             return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         }
                     }
@@ -129,7 +136,7 @@
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return context.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         }
                     }
@@ -167,7 +174,7 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: function(value) {
+                        callback: function (value) {
                             return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         }
                     }
@@ -176,7 +183,7 @@
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return context.dataset.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
                         }
                     }
@@ -216,10 +223,10 @@
         margin-top: 10px;
     }
 
-    .difference-result .emoji {
-        font-size: 2em;
-        margin-left: 10px;
-    }
+        .difference-result .emoji {
+            font-size: 2em;
+            margin-left: 10px;
+        }
 
     .explanation {
         font-size: 1.2em;

@@ -6,7 +6,7 @@ namespace DebtManagement.Web.DTOs
         public decimal MonthlyIncome { get; set; }
         public string? AdditionalIncomeSources { get; set; }
         public DateTime RecordedDate { get; set; }
-        public string ClientId { get; set; } = default!;
-        public string Source { get; set; } = default!;
+        public string? ClientId { get; set; }
+        public string? Source { get; set; }
     }
 }
