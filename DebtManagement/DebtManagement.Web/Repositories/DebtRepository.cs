@@ -27,12 +27,12 @@ namespace DebtManagement.Web.Repositories
             return await _context.Debts.Where(d => d.DebtType == type).ToListAsync();
         }
 
-        public async Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type)  // Add this method
+        public async Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type)
         {
             return await _context.Debts.Where(d => d.ClientId == clientId && d.DebtType == type).ToListAsync();
-        }        
-        
-        public async Task<IEnumerable<Debt>> GetDebtsByClientId(string clientId)  // Add this method
+        }
+
+        public async Task<IEnumerable<Debt>> GetDebtsByClientId(string clientId)
         {
             return await _context.Debts.Where(d => d.ClientId == clientId).ToListAsync();
         }
@@ -44,8 +44,17 @@ namespace DebtManagement.Web.Repositories
 
         public async Task AddDebtAsync(Debt debt)
         {
-            await _context.Debts.AddAsync(debt);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Debts.AddAsync(debt);
+                await _context.SaveChangesAsync();
+                System.Diagnostics.Debug.WriteLine("Debt added successfully.");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error adding debt: {ex.Message}");
+                throw;  // Rethrow the exception after logging
+            }
         }
 
         public async Task UpdateDebtAsync(Debt debt)
