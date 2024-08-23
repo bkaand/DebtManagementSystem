@@ -30,6 +30,11 @@ namespace DebtManagement.Web.Repositories
         public async Task<IEnumerable<Debt>> GetDebtsByClientIdAndTypeAsync(string clientId, DebtType type)  // Add this method
         {
             return await _context.Debts.Where(d => d.ClientId == clientId && d.DebtType == type).ToListAsync();
+        }        
+        
+        public async Task<IEnumerable<Debt>> GetDebtsByClientId(string clientId)  // Add this method
+        {
+            return await _context.Debts.Where(d => d.ClientId == clientId).ToListAsync();
         }
 
         public async Task<Debt> GetDebtByIdAsync(int debtId)

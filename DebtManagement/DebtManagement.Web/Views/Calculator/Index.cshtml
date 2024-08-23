@@ -40,23 +40,36 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Doughnut Chart for Income Distribution
-    var ctxIncome = document.getElementById('incomeChart').getContext('2d');
-    var incomeChart = new Chart(ctxIncome, {
-        type: 'doughnut',
+    var ctxIncomeVsDebt = document.getElementById('incomeChart').getContext('2d');
+    var incomeVsDebtChart = new Chart(ctxIncomeVsDebt, {
+        type: 'bar',
         data: {
-            labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)),
+            labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)), // Assuming IncomeLabels and DebtLabels are the same
             datasets: [{
+                label: 'Income',
                 data: @Html.Raw(Json.Serialize(Model.IncomeValues)),
-                backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Debts',
+                data: @Html.Raw(Json.Serialize(Model.DebtValues)),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
+
 
     // Bar Chart for Debt Distribution
     var ctxDebt = document.getElementById('debtChart').getContext('2d');

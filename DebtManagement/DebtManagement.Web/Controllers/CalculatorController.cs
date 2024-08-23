@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DebtManagement.Web.Entities;
+using DebtManagement.Web.Entities.Enums;
 
 namespace DebtManagement.Web.Controllers
 {
@@ -21,9 +22,9 @@ namespace DebtManagement.Web.Controllers
         private readonly UserManager<User> _userManager;
 
         public CalculatorController(
-            IDebtService debtService, 
-            IIncomeService incomeService, 
-            IPaymentService paymentService, 
+            IDebtService debtService,
+            IIncomeService incomeService,
+            IPaymentService paymentService,
             IMapper mapper,
             UserManager<User> userManager)
         {
@@ -38,25 +39,61 @@ namespace DebtManagement.Web.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var userId = user?.Id;
-            
+
             var viewModel = new CalculatorViewModel();
 
             // Get data from services filtered by user
             var debts = await _debtService.GetDebtsByClientIdAsync(userId);
             var incomes = await _incomeService.GetIncomesByClientIdAsync(userId);
             var payments = await _paymentService.GetPaymentsByClientIdAsync(userId);
-            
+
             // Calculate totals
             var totalDebts = debts.Sum(d => d.DebtAmount);
             var totalIncome = incomes.Sum(i => i.MonthlyIncome);
-            
+
             viewModel.TotalDebts = totalDebts;
-            viewModel.TotalIncomes = totalIncome;
+            viewModel.TotalIncomes = 500;
 
             // Populate Debt and Income distribution data
             var debtTypes = debts.GroupBy(d => d.DebtType)
                                  .Select(g => new { DebtType = g.Key, Total = g.Sum(d => d.DebtAmount) })
                                  .ToList();
+            
+            decimal intallmentAmount = 0;
+            foreach (var debt in debts)
+            {
+                //kredi taksitli oluyor, Açık hesap 100% ödeniyor, kira 100% ödeniyor, Credit Card 100% ödeniyor, diğerleri 50% ödeniyor
+                //installment amount hesaplaması
+                switch (debt.DebtType)
+                {
+                    case DebtType.CreditCard:
+                        intallmentAmount += debt.DebtAmount;
+                        break;
+                    case DebtType.Loan:
+                        {
+                            if (debt.Installments > 0)
+                            {
+                                intallmentAmount += debt.DebtAmount / debt.Installments;
+                                break;
+                            }
+                            else
+                            {
+                                intallmentAmount += debt.RemainingAmount;
+                            }
+                            break;
+                        }
+
+                    case DebtType.MonthlyRents:
+                        intallmentAmount += debt.DebtAmount;
+                        break;
+                    case DebtType.Avans:
+                        intallmentAmount += debt.DebtAmount;
+                        break;
+                    case DebtType.Other:
+                        intallmentAmount += debt.DebtAmount;
+                        break;
+                }
+            }
 
             viewModel.DebtLabels = debtTypes.Select(d => d.DebtType.ToString()).ToList();
             viewModel.DebtValues = debtTypes.Select(d => d.Total).ToList();
