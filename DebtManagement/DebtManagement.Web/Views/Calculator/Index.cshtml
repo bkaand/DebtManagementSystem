@@ -2,28 +2,26 @@
 
 <h1>Financial Overview</h1>
 
-<!-- Income Distribution Chart -->
-<div class="chart-container">
-    <h2>Income Distribution</h2>
-    <canvas id="incomeChart"></canvas>
+<div class="row">
+    <!-- Income Distribution Chart -->
+    <div class="col-md-6 chart-container">
+        <h2>Income Distribution</h2>
+        <canvas id="incomeChart"></canvas>
+    </div>
+
+    <!-- Debt Distribution Chart -->
+    <div class="col-md-6 chart-container">
+        <h2>Debt Distribution</h2>
+        <canvas id="debtChart"></canvas>
+    </div>
 </div>
 
-<!-- Debt Distribution Chart -->
-<div class="chart-container">
-    <h2>Debt Distribution</h2>
-    <canvas id="debtChart"></canvas>
-</div>
-
-<!-- Payment Trends Chart -->
-<div class="chart-container">
-    <h2>Payment Trends</h2>
-    <canvas id="paymentChart"></canvas>
-</div>
-
-<!-- Total Debts vs Total Incomes Monthly Comparison Chart -->
-<div class="chart-container">
-    <h2>Total Debts vs Total Incomes Monthly</h2>
-    <canvas id="debtVsIncomeChart"></canvas>
+<div class="row">
+    <!-- Total Debts vs Total Incomes Monthly Comparison Chart -->
+    <div class="col-md-12 chart-container">
+        <h2>Total Debts vs Total Incomes Monthly</h2>
+        <canvas id="debtVsIncomeChart"></canvas>
+    </div>
 </div>
 
 <!-- Analysis Section -->
@@ -31,45 +29,76 @@
     <h2>Analysis</h2>
     <p>Your largest income source is: @Model.IncomeLabels.FirstOrDefault()</p>
     <p>Your highest debt category is: @Model.DebtLabels.FirstOrDefault()</p>
-    <p>The month with the highest payment is: @Model.PaymentLabels.FirstOrDefault()</p>
     <p>Total Debts: @Model.TotalDebts</p>
     <p>Total Incomes: @Model.TotalIncomes</p>
-    <p>This Month's Installments: @Model.ThisMonthInstallments</p>
+</div>
+
+<!-- Income vs Debt Difference Section -->
+<div class="difference-section">
+    @{
+        var difference = Model.TotalIncomes - Model.TotalDebts;
+        var ratio = Model.TotalIncomes / (Model.TotalDebts == 0 ? 1 : Model.TotalDebts);
+        string emoji;
+        string explanation;
+
+        if (ratio > 1.2m)
+        {
+            emoji = "😊";
+            explanation = "You are in a great financial position! Keep up the good work.";
+        }
+        else if (ratio >= 0.8m && ratio <= 1.2m)
+        {
+            emoji = "😐";
+            explanation = "Your income and debts are balanced. Consider saving more.";
+        }
+        else
+        {
+            emoji = "😟";
+            explanation = "Your debts exceed your income. It's time to review your finances.";
+        }
+    }
+
+    <h2>Income vs Debt Difference</h2>
+    <div class="difference-result">
+        <p style="font-size: 1.2em;">
+            Difference: <strong>@difference.ToString("C")</strong>
+            <span class="emoji" style="font-size: 2.5em;">@emoji</span>
+        </p>
+        <p class="explanation" style="font-size: 0.9em;">
+            @explanation
+        </p>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Doughnut Chart for Income Distribution
-    var ctxIncomeVsDebt = document.getElementById('incomeChart').getContext('2d');
-    var incomeVsDebtChart = new Chart(ctxIncomeVsDebt, {
-        type: 'bar',
+    var ctxIncome = document.getElementById('incomeChart').getContext('2d');
+    var incomeChart = new Chart(ctxIncome, {
+        type: 'doughnut',
         data: {
-            labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)), // Assuming IncomeLabels and DebtLabels are the same
+            labels: @Html.Raw(Json.Serialize(Model.IncomeLabels)),
             datasets: [{
-                label: 'Income',
                 data: @Html.Raw(Json.Serialize(Model.IncomeValues)),
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }, {
-                label: 'Debts',
-                data: @Html.Raw(Json.Serialize(Model.DebtValues)),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0', '#ffcd56', '#ff9f40'],
+                borderColor: ['#36a2eb', '#ff6384', '#4bc0c0', '#ffcd56', '#ff9f40'],
                 borderWidth: 1
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        }
+                    }
                 }
             }
         }
     });
-
 
     // Bar Chart for Debt Distribution
     var ctxDebt = document.getElementById('debtChart').getContext('2d');
@@ -79,8 +108,8 @@
             labels: @Html.Raw(Json.Serialize(Model.DebtLabels)),
             datasets: [{
                 data: @Html.Raw(Json.Serialize(Model.DebtValues)),
-                backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                borderColor: 'rgba(255, 206, 86, 1)',
+                backgroundColor: '#ffcd56',
+                borderColor: '#ff9f40',
                 borderWidth: 1
             }]
         },
@@ -89,32 +118,27 @@
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        }
+                    }
                 }
             }
         }
     });
 
-    // Polar Area Chart for Payment Trends
-    var ctxPayment = document.getElementById('paymentChart').getContext('2d');
-    var paymentChart = new Chart(ctxPayment, {
-        type: 'polarArea',
-        data: {
-            labels: @Html.Raw(Json.Serialize(Model.PaymentLabels)),
-            datasets: [{
-                data: @Html.Raw(Json.Serialize(Model.PaymentValues)),
-                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    // Bar Chart for Monthly Debts vs Income Comparison
+    // Line Chart for Monthly Debts vs Income Comparison
     var ctxDebtVsIncome = document.getElementById('debtVsIncomeChart').getContext('2d');
     var debtVsIncomeChart = new Chart(ctxDebtVsIncome, {
         type: 'line',
@@ -123,13 +147,17 @@
             datasets: [{
                 label: 'Total Debts',
                 data: @Html.Raw(Json.Serialize(Model.MonthlyDebtValues)),
-                borderColor: 'rgba(255, 99, 132, 1)',
-                fill: false
+                borderColor: '#ff6384',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true,
+                tension: 0.1
             }, {
                 label: 'Total Incomes',
                 data: @Html.Raw(Json.Serialize(Model.MonthlyIncomeValues)),
-                borderColor: 'rgba(54, 162, 235, 1)',
-                fill: false
+                borderColor: '#36a2eb',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.1
             }]
         },
         options: {
@@ -137,7 +165,21 @@
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                        }
+                    }
                 }
             }
         }
@@ -146,9 +188,10 @@
 
 <style>
     .chart-container {
-        width: 400px;
-        height: 300px;
-        margin: 50px auto;
+        width: 100%;
+        max-width: 600px;
+        height: 400px;
+        margin: 30px auto;
     }
 
     .analysis-section {
@@ -156,6 +199,32 @@
         margin-top: 40px;
         background-color: #f9f9f9;
         border-radius: 8px;
+        text-align: center;
+    }
+
+    .difference-section {
+        padding: 20px;
+        margin-top: 40px;
+        background-color: #e9f7ef;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #28a745;
+    }
+
+    .difference-result {
+        font-size: 1.5em;
+        margin-top: 10px;
+    }
+
+    .difference-result .emoji {
+        font-size: 2em;
+        margin-left: 10px;
+    }
+
+    .explanation {
+        font-size: 1.2em;
+        margin-top: 10px;
+        color: #555;
     }
 
     canvas {
@@ -166,10 +235,13 @@
 
     h1, h2 {
         text-align: center;
+        margin-bottom: 20px;
+        color: #333;
     }
 
     p {
-        text-align: center;
         font-size: 1.1em;
+        color: #555;
+        text-align: center;
     }
 </style>

@@ -84,6 +84,43 @@ else
     </table>
 }
 
+@* Avans *@
+@if (Model == null || !Model.AvansDebts.Any())
+{
+    <p>No avans debts available.</p>
+}
+else
+{
+    <h2>Avans Debts</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Debt Type</th>
+                <th>Debt Amount</th>
+                <th>Installments</th>
+                <th>Remaining Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.AvansDebts)
+        {
+            <tr>
+                <td>@item.DebtType</td>
+                <td>@item.DebtAmount</td>
+                <td>@item.PaidInstallments/@item.Installments</td> @* Updated for paid/total format *@
+                <td>@item.RemainingAmount</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
 @* Monthly Rents *@
 @if (Model == null || !Model.MonthlyRentsDebts.Any())
 {

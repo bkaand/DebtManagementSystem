@@ -7,8 +7,7 @@ namespace DebtManagement.Web.DTOs
         public decimal TotalDebts { get; set; }
         public decimal TotalIncomes { get; set; }
         public decimal ThisMonthInstallments { get; set; }
-        public string ClientId { get; set; }  // Optional: For filtering/displaying client-specific data
-
+        public string ClientId { get; set; }  
         public List<string> IncomeLabels { get; set; }
         public List<decimal> IncomeValues { get; set; }
         public List<string> DebtLabels { get; set; }
